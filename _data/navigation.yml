@@ -1,13 +1,13 @@
 # main links
 main:
   - title: "Home"
-    url: https://choiiis.github.io/
+    url: https://brian-223134.github.io/
 
   - title: "About"
     url: /about/
 
   - title: "GitHub"
-    url: https://github.com/choiiis
+    url: https://github.com/brian-223134
 
   # - title: "Projects"
   #   url: /projects/
@@ -26,3 +26,4 @@ categories:
     url: /categories/categories3/
   - title: "Categories4"
     url: /categories/categories4/
+
