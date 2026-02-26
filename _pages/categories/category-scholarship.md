@@ -3,7 +3,7 @@ title: "Scholarship"
 layout: category
 permalink: /categories/scholarship/
 author_profile: true
-taxonomy: scholarship
+taxonomy: Scholarship
 sidebar:
   nav: "categories"
 ---
