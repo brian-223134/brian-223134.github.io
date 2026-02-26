@@ -1,8 +1,8 @@
 ---
-title: "Hi all! I'm OOOOOO👋🏻"
+title: "Hi all! I'm Chan-Joong Kim"
 permalink: /about/
 layout: single
 comments: false
 ---
 
-본인 소개 여기에 입력
+- Agentic AI, LLM에 관심이 많습니다.
