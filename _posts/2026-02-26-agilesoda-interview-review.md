@@ -5,7 +5,7 @@ excerpt: "Placement 면접에 대한 복기 내용 입니다."
 categories:
   - interview
 tags:
-  - [애자일소다, 중앙대학교, 코틀린, 쿠버네티스, JVM, 면접, 복기]
+  - [애자일소다, 중앙대학교, Placement, 코틀린, 쿠버네티스, JVM, 면접, 복기]
 
 permalink: /interview/agilesoda/
 
