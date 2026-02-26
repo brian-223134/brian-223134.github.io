@@ -5,7 +5,7 @@ excerpt: "서울 영커리언스 면접에 대한 복기 내용 입니다."
 categories:
   - interview
 tags:
-  - [KT, 장학생, 면접, 자기소개서]
+  - [langcode, 서울, 영커리언스, 면접, 복기]
 
 permalink: /interview/langcode/
 
