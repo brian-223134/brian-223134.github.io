@@ -25,7 +25,9 @@ categories:
     url: /categories/lecture/
 
   - title: "서적"
-    url: /categories/book/
+    children:
+      - title: "데이터 중심 애플리케이션 설계"
+        url: /categories/book/designing-data-intensive-applications/
 
   - title: "면접"
     url: /categories/interview/
