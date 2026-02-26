@@ -20,14 +20,14 @@ main:
 categories:
   - title: "논문"
     url: /categories/paper/
-  
+
   - title: "강의"
     url: /categories/lecture/
 
   - title: "서적"
     url: /categories/book/
     children:
-      - title: "데이터 중심 애플리케이션 설계"
+      - title: "Designing-Data-Intensive-Applications"
         url: /categories/book/designing-data-intensive-applications/
 
   - title: "면접"
