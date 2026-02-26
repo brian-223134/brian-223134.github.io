@@ -39,7 +39,7 @@ categories:
   - title: "인턴"
     #url: /categories/intern/
     children:
-      - title: "랩실"
+      - title: "lab"
         url: /categories/intern/lab/
-      - title: "기업"
+      - title: "company"
         url: /categories/intern/company/
