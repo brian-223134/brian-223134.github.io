@@ -1,5 +1,5 @@
 ---
-title: "[면접 복기] Kafka, MQ 기반의 전공 면접 (Placement)"
+title: "[면접 복기] 과제 리뷰 및 기초 전공 면접 (Placement)"
 excerpt: "Placement 면접에 대한 복기 내용 입니다."
 
 categories:
