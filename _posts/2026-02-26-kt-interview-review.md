@@ -3,7 +3,7 @@ title: "2025 KT디지털인재 장학생 합격 후기 (2026 지원자 가이드
 excerpt: "2025년 KT 디지털인재 장학생 합격 후기와 면접 준비 팁, 자기소개서 작성 전략을 공유합니다."
 
 categories:
-  - scholarship
+  - Scholarship
 tags:
   - [KT, 장학생, 면접, 자기소개서]
 
