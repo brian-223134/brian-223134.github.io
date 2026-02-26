@@ -3,7 +3,6 @@ title: "[회고] 고려대 CCSLAB 학부 인턴십: SBOM 분석 및 통합 프�
 excerpt: "고려대학교 컴퓨터 보안 연구실 학부 인턴 회고 내용 입니다."
 
 categories:
-  - intern
   - lab
 tags:
   - [고려대학교, ccs, 보안, 연구실, 학부인턴]

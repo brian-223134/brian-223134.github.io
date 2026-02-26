@@ -1,5 +1,5 @@
 ---
-title: "랩실"
+title: "Laboratory"
 layout: category
 permalink: /categories/intern/lab/
 author_profile: true

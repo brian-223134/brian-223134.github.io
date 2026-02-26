@@ -1,5 +1,5 @@
 ---
-title: "서적"
+title: "Book"
 layout: category
 permalink: /categories/book/
 author_profile: true

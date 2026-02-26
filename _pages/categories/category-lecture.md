@@ -1,5 +1,5 @@
 ---
-title: "강의"
+title: "Lecture"
 layout: category
 permalink: /categories/lecture/
 author_profile: true

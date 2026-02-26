@@ -1,5 +1,5 @@
 ---
-title: "논문"
+title: "Paper"
 layout: category
 permalink: /categories/paper/
 author_profile: true

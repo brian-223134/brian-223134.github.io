@@ -1,5 +1,5 @@
 ---
-title: "인턴"
+title: "Intern"
 layout: category
 permalink: /categories/intern/
 author_profile: true

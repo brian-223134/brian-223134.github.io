@@ -1,5 +1,5 @@
 ---
-title: "장학생"
+title: "Scholarship"
 layout: category
 permalink: /categories/scholarship/
 author_profile: true

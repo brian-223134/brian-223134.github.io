@@ -1,5 +1,5 @@
 ---
-title: "기업"
+title: "Company"
 layout: category
 permalink: /categories/intern/company/
 author_profile: true
