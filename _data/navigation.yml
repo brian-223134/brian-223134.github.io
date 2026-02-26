@@ -35,3 +35,11 @@ categories:
 
   - title: "장학생"
     url: /categories/scholarship/
+
+  - title: "인턴"
+    url: /categories/intern/
+    children:
+      - title: "랩실"
+        url: /categories/intern/lab/
+      - title: "기업"
+        url: /categories/intern/company/
