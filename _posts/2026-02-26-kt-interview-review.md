@@ -12,7 +12,7 @@ permalink: /scholarship/kt-interview-review/
 toc: true
 toc_sticky: true
 
-date: 2026-02-26
+date: 2026-01-09
 last_modified_at: 2026-02-26
 ---
 
