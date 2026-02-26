@@ -19,12 +19,27 @@ main:
 # 2022.02.15 sidebar update : simple ver.
 categories:
   - title: "논문"
-    url: /categories/categories1/
-  - title: "Categories2"
-    url: /categories/categories2/
-  - title: "Categories3"
-    url: /categories/categories3/
-  - title: "Categories4"
-    url: /categories/categories4/
-
+    children:
+      - title: "AI"
+        url: /categories/papers/ai/
+      - title: "Security"
+        url: /categories/papers/security/
+  - title: "인턴"
+    children:
+      - title: "연구실"
+        url: /categories/intern/lab/
+      - title: "산업체"
+        url: /categories/intern/company/
+  - title: "강의 및 서적"
+    children:
+      - title: "강의"
+        url: /categories/lectures/
+      - title: "서적"
+        url: /categories/books/
+  - title: "면접"
+    children:
+      - title: "연구실 면접"
+        url: /categories/interview/intern/
+      - title: "기업 면접"
+        url: /categories/interview/enterprise/
 
