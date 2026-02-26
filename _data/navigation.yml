@@ -37,7 +37,7 @@ categories:
     url: /categories/scholarship/
 
   - title: "인턴"
-    url: /categories/intern/
+    #url: /categories/intern/
     children:
       - title: "랩실"
         url: /categories/intern/lab/
