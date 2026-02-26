@@ -37,9 +37,8 @@ categories:
     url: /categories/scholarship/
 
   - title: "인턴"
-    #url: /categories/intern/
     children:
-      - title: "lab"
+      - title: "laboratory"
         url: /categories/intern/lab/
       - title: "company"
         url: /categories/intern/company/

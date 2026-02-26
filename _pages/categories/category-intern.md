@@ -3,7 +3,7 @@ title: "Intern"
 layout: category
 permalink: /categories/intern/
 author_profile: true
-taxonomy: intern
+taxonomy: Intern
 sidebar:
   nav: "categories"
 ---

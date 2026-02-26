@@ -3,7 +3,7 @@ title: "Laboratory"
 layout: category
 permalink: /categories/intern/lab/
 author_profile: true
-taxonomy: lab
+taxonomy: Laboratory
 sidebar:
   nav: "categories"
 ---

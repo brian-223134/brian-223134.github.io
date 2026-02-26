@@ -3,7 +3,7 @@ title: "Lecture"
 layout: category
 permalink: /categories/lecture/
 author_profile: true
-taxonomy: lecture
+taxonomy: Lecture
 sidebar:
   nav: "categories"
 ---
