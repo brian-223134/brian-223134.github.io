@@ -3,7 +3,7 @@ title: "[면접 복기] 경험 기반 인성 면접 (ICT)"
 excerpt: "ICT 면접에 대한 복기 내용 입니다."
 
 categories:
-  - interview
+  - Interview
 tags:
   - [에아아이웍스, ICT, 면접, 복기]
 

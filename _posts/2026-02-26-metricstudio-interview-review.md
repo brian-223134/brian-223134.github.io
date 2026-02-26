@@ -3,7 +3,7 @@ title: "[면접 복기] 과제 리뷰 및 기초 전공 면접 (Placement)"
 excerpt: "Placement 면접에 대한 복기 내용 입니다."
 
 categories:
-  - interview
+  - Interview
 tags:
   - [메트릭스튜디오, 중앙대학교, Placement, 데이터, 엔지니어, 면접, 복기]
 

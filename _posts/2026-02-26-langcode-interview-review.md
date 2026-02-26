@@ -3,7 +3,7 @@ title: "[면접 복기] RAG/LLM 품질 관리·테스트 중심 질문 정리 (�
 excerpt: "서울 영커리언스 면접에 대한 복기 내용 입니다."
 
 categories:
-  - interview
+  - Interview
 tags:
   - [langcode, 서울, 영커리언스, 면접, 복기]
 
