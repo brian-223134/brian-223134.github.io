@@ -25,7 +25,7 @@ categories:
     url: /categories/lecture/
 
   - title: "서적"
-    url: /categories/book/
+    #url: /categories/book/
     children:
       - title: "Designing-Data-Intensive-Applications"
         url: /categories/book/designing-data-intensive-applications/
