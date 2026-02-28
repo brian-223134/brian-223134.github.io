@@ -7,7 +7,7 @@ categories:
 tags:
   - [서적, 데이터, 중심, 애플리케이션, 설계, 01장]
 
-permalink: /book/designing-data-intensive-applications/
+permalink: /book/designing-data-intensive-applications/01/
 
 toc: true
 toc_sticky: true
