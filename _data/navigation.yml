@@ -22,10 +22,14 @@ categories:
     url: /categories/paper/
 
   - title: "강의"
-    url: /categories/lecture/
+    # url: /categories/lecture/
+    children:
+      - title: "AWS_BASIC"
+        url: /categories/lecture/aws_basic/
+      - title: "ANDREW_NG_DEEP_LEARNING"
+        url: /categories/lecture/andrew_ng_deep_learning/
 
   - title: "서적"
-    #url: /categories/book/
     children:
       - title: "Designing-Data-Intensive-Applications"
         url: /categories/book/designing-data-intensive-applications/
