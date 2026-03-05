@@ -41,7 +41,10 @@ categories:
     url: /categories/interview/
 
   - title: "장학생"
-    url: /categories/scholarship/
+    #url: /categories/scholarship/
+    children:
+      - title: "KT-Scholarship"
+        url: /categories/scholarship/kt/
 
   - title: "인턴"
     children:
