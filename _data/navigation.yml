@@ -34,6 +34,8 @@ categories:
     children:
       - title: "Designing-Data-Intensive-Applications"
         url: /categories/book/designing-data-intensive-applications/
+      - title: "Fundamentals-Of-Data-Engineering"
+        url: /categories/book/fundamentals-of-data-engineering/
 
   - title: "면접"
     url: /categories/interview/
