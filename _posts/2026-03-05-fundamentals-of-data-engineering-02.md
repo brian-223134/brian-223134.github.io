@@ -313,31 +313,7 @@ models/
 
 ## 8. 현대 데이터 스택: Airbyte + dbt 전체 그림
 
-```
-[소스 시스템: PostgreSQL / MySQL / SaaS API 등] <-----------+
-          |                                                 |
-          | (Extract + Load)                   (Reverse ETL)|
-          v                                                 |
-    [Airbyte: 수집]                                          |
-          |                                                 |
-          v                                                 |
-+----------------------------------------------+            |
-|              데이터 웨어하우스                   |            |
-|   (BigQuery / Snowflake / Redshift)          |            |
-|                   |                          |            |
-|            [dbt: 변환]                        |            |
-|           /            \                     |            |
-|      [Staging]       [Marts] ----------------+------------+
-|      정제 레이어        분석 레이어                |
-|           |               |                  |
-|      [dbt test]           |                  |
-|       품질 검증             |                  |
-+---------------------------|------------------+
-                            |
-                            v
-                [BI 도구 / 데이터 과학자]
-              (Metabase / Looker / Jupyter)
-```
+![data-engineering-flow](/assets/images/posts_img/book/fundamentals-of-data-engineering/data-engineering-flow.png)
 
 이 구조는 "견고한 데이터 엔지니어링"의 수명 주기를 현대 도구로 구현한 표준 패턴이다.
 
