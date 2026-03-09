@@ -29,6 +29,8 @@ categories:
         url: /categories/lecture/aws_basic/
       - title: "ANDREW_NG_DEEP_LEARNING"
         url: /categories/lecture/andrew_ng_deep_learning/
+      - title: "CS224N"
+        url: /categories/lecture/cs224n/
 
   - title: "서적"
     children:
