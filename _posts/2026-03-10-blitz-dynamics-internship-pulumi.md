@@ -1,11 +1,11 @@
 ---
 title: "[블리츠다이나믹스] Pulumi로 CloudWatch 모니터링 & Slack 알람 인프라 구축"
-excerpt: "AWS CloudWatch 메트릭 수집부터 대시보드 구성, Slack 알람 연동까지 Pulumi IaaC로 구현하는 전 과정을 정리합니다."
+excerpt: "AWS CloudWatch 메트릭 수집부터 대시보드 구성, Slack 알람 연동까지 Pulumi IaC로 구현하는 전 과정을 정리합니다."
 
 categories:
   - Company
 tags:
-  - [블리츠다이나믹스, 산학, 인턴, 인프라, Pulumi, CloudWatch, Slack, IaaC]
+  - [블리츠다이나믹스, 산학, 인턴, 인프라, Pulumi, CloudWatch, Slack, IaC]
 
 permalink: /intern/company/blitz-dynamics/pulumi-cloudwatch-slack/
 
@@ -76,11 +76,13 @@ EC2 인스턴스가 기본으로 제공하는 메트릭은 다음과 같다. Nam
 
 > **주의**: 기본 EC2 메트릭에는 **메모리 사용률과 디스크 사용률(EBS)**이 포함되지 않는다. 이를 수집하려면 **CloudWatch Agent**를 설치해야 한다.
 
-## 1-3. CloudWatch Agent로 추가 메트릭 수집
+## 1-3. CloudWatch Agent로 추가 메트릭 수집 (추후 적용 예정)
 
-CloudWatch Agent를 EC2에 설치하면 OS 수준의 메트릭을 `CWAgent` Namespace로 수집할 수 있다.
+> **현재 과제 범위 밖**: 이번 인턴십 과제에서는 AWS가 기본으로 제공하는 메트릭만 대상으로 한다. CloudWatch Agent 기반 메트릭은 현재 단계에서는 적용하지 않으며, 인프라가 안정화된 이후 추가로 도입할 예정이다.
 
-주요 추가 메트릭:
+EC2가 기본으로 보내는 메트릭에는 **메모리 사용률과 디스크 사용률이 포함되지 않는다.** 이를 수집하려면 EC2에 CloudWatch Agent를 별도 설치해야 하며, 수집된 메트릭은 `CWAgent` Namespace로 저장된다.
+
+향후 수집 대상:
 
 | Metric Name | 설명 |
 |---|---|
@@ -94,14 +96,14 @@ CloudWatch Agent를 EC2에 설치하면 OS 수준의 메트릭을 `CWAgent` Name
 모든 메트릭을 다 볼 필요는 없다. 실제 운영에서 중요한 메트릭을 추려내는 것이 먼저다. 블리츠다이나믹스 환경에서는 아래 메트릭을 우선 수집·모니터링한다.
 
 ```
-[필수 모니터링 대상]
-EC2:
+[필수 모니터링 대상 - AWS 기본 제공 메트릭]
+EC2 (Namespace: AWS/EC2):
   - CPUUtilization          → 서버 부하 파악
-  - mem_used_percent        → 메모리 부족 감지 (Agent 필요)
-  - disk_used_percent       → 디스크 풀 방지 (Agent 필요)
   - NetworkIn / NetworkOut  → 트래픽 이상 감지
+  - NetworkPacketsIn/Out    → 패킷 수준 이상 감지
+  - StatusCheckFailed       → 인스턴스/시스템 상태 이상 감지
 
-RDS (사용 시):
+RDS (사용 시, Namespace: AWS/RDS):
   - CPUUtilization
   - FreeStorageSpace
   - DatabaseConnections
@@ -186,7 +188,7 @@ Lambda에서 Slack으로 보낼 메시지를 구조화하면 가독성이 높아
 
 ## 4-1. Pulumi란?
 
-**Pulumi**는 TypeScript, Python, Go 등 일반 프로그래밍 언어로 인프라를 정의하는 **IaaC(Infrastructure as Code)** 도구다.
+**Pulumi**는 TypeScript, Python, Go 등 일반 프로그래밍 언어로 인프라를 정의하는 **IaC(Infrastructure as Code)** 도구다.
 
 AWS CloudFormation(YAML/JSON)이나 Terraform(HCL)과 달리, 익숙한 언어의 **조건문, 반복문, 함수, 패키지**를 그대로 활용할 수 있다는 것이 가장 큰 장점이다. 특히 TypeScript로 작성하면 **타입 안전성**이 보장되어 오타나 잘못된 파라미터를 컴파일 단계에서 잡을 수 있다.
 
@@ -416,38 +418,20 @@ const cpuAlarm = new aws.cloudwatch.MetricAlarm("cpu-high-alarm", {
   tags: { Project: "blitz-monitoring" },
 });
 
-// 메모리 사용률 알람 (CloudWatch Agent 필요)
-const memAlarm = new aws.cloudwatch.MetricAlarm("mem-high-alarm", {
-  name: "EC2-Memory-High",
+// 인스턴스 상태 체크 알람
+const statusAlarm = new aws.cloudwatch.MetricAlarm("status-check-alarm", {
+  name: "EC2-StatusCheck-Failed",
   comparisonOperator: "GreaterThanOrEqualToThreshold",
-  evaluationPeriods: 2,
-  metricName: "mem_used_percent",
-  namespace: "CWAgent",
-  period: 300,
-  statistic: "Average",
-  threshold: 85,
-  alarmDescription: "EC2 메모리 사용률이 85%를 초과했습니다.",
+  evaluationPeriods: 1,
+  metricName: "StatusCheckFailed",
+  namespace: "AWS/EC2",
+  period: 60,
+  statistic: "Maximum",
+  threshold: 1,
+  alarmDescription: "EC2 인스턴스 상태 체크가 실패했습니다.",
   alarmActions: [alarmTopic.arn],
   okActions: [alarmTopic.arn],
   dimensions: { InstanceId: INSTANCE_ID },
-  treatMissingData: "notBreaching",
-  tags: { Project: "blitz-monitoring" },
-});
-
-// 디스크 사용률 알람 (CloudWatch Agent 필요)
-const diskAlarm = new aws.cloudwatch.MetricAlarm("disk-high-alarm", {
-  name: "EC2-Disk-High",
-  comparisonOperator: "GreaterThanOrEqualToThreshold",
-  evaluationPeriods: 1,
-  metricName: "disk_used_percent",
-  namespace: "CWAgent",
-  period: 300,
-  statistic: "Average",
-  threshold: 90,
-  alarmDescription: "EC2 디스크 사용률이 90%를 초과했습니다.",
-  alarmActions: [alarmTopic.arn],
-  okActions: [alarmTopic.arn],
-  dimensions: { InstanceId: INSTANCE_ID, path: "/", fstype: "xfs" },
   treatMissingData: "notBreaching",
   tags: { Project: "blitz-monitoring" },
 });
