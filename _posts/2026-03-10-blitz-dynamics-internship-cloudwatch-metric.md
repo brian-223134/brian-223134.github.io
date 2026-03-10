@@ -1,5 +1,5 @@
 ---
-title: "[블리츠다이나믹스] AWS/EC2 CloudWatch 메트릭 전체 정리"
+title: "[인턴] AWS/EC2 CloudWatch 메트릭 전체 정리"
 excerpt: "EC2 인스턴스에 기본으로 제공되는 AWS/EC2 네임스페이스 CloudWatch 메트릭 18개를 카테고리별로 정리합니다."
 
 categories:

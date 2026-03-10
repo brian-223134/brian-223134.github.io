@@ -1,5 +1,5 @@
 ---
-title: "[블리츠다이나믹스] Pulumi로 CloudWatch 모니터링 & Slack 알람 인프라 구축"
+title: "[인턴] Pulumi로 CloudWatch 모니터링 & Slack 알람 인프라 구축"
 excerpt: "AWS CloudWatch 메트릭 수집부터 대시보드 구성, Slack 알람 연동까지 Pulumi IaC로 구현하는 전 과정을 정리합니다."
 
 categories:
