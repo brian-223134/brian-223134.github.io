@@ -456,8 +456,8 @@ const statusAlarm = new aws.cloudwatch.MetricAlarm("status-check-alarm", {
 
 const dashboard = new aws.cloudwatch.Dashboard("monitoring-dashboard", {
   dashboardName: "blitz-server-monitoring",
-  dashboardBody: pulumi.all([cpuAlarm.arn, memAlarm.arn, diskAlarm.arn])
-    .apply(([cpuArn, memArn, diskArn]) =>
+  dashboardBody: pulumi.all([cpuAlarm.arn, statusAlarm.arn])
+    .apply(([cpuArn, statusArn]) =>
       JSON.stringify({
         widgets: [
           // 타이틀
@@ -469,7 +469,7 @@ const dashboard = new aws.cloudwatch.Dashboard("monitoring-dashboard", {
           // CPU 사용률
           {
             type: "metric",
-            x: 0, y: 1, width: 8, height: 6,
+            x: 0, y: 1, width: 12, height: 6,
             properties: {
               title: "CPU 사용률 (%)",
               metrics: [
@@ -483,45 +483,10 @@ const dashboard = new aws.cloudwatch.Dashboard("monitoring-dashboard", {
               view: "timeSeries",
             },
           },
-          // 메모리 사용률
-          {
-            type: "metric",
-            x: 8, y: 1, width: 8, height: 6,
-            properties: {
-              title: "메모리 사용률 (%)",
-              metrics: [
-                ["CWAgent", "mem_used_percent", "InstanceId", INSTANCE_ID,
-                  { stat: "Average", period: 300 }],
-              ],
-              yAxis: { left: { min: 0, max: 100 } },
-              annotations: {
-                horizontal: [{ value: 85, color: "#ff0000", label: "임계값" }],
-              },
-              view: "timeSeries",
-            },
-          },
-          // 디스크 사용률
-          {
-            type: "metric",
-            x: 16, y: 1, width: 8, height: 6,
-            properties: {
-              title: "디스크 사용률 (%)",
-              metrics: [
-                ["CWAgent", "disk_used_percent", "InstanceId", INSTANCE_ID,
-                  "path", "/", "fstype", "xfs",
-                  { stat: "Average", period: 300 }],
-              ],
-              yAxis: { left: { min: 0, max: 100 } },
-              annotations: {
-                horizontal: [{ value: 90, color: "#ff0000", label: "임계값" }],
-              },
-              view: "timeSeries",
-            },
-          },
           // 네트워크 트래픽
           {
             type: "metric",
-            x: 0, y: 7, width: 12, height: 6,
+            x: 12, y: 1, width: 12, height: 6,
             properties: {
               title: "네트워크 트래픽 (Bytes)",
               metrics: [
@@ -536,10 +501,10 @@ const dashboard = new aws.cloudwatch.Dashboard("monitoring-dashboard", {
           // 알람 상태
           {
             type: "alarm",
-            x: 12, y: 7, width: 12, height: 6,
+            x: 0, y: 7, width: 24, height: 6,
             properties: {
               title: "알람 상태",
-              alarms: [cpuArn, memArn, diskArn],
+              alarms: [cpuArn, statusArn],
             },
           },
         ],
@@ -578,12 +543,11 @@ Previewing update (dev)
  +   ├─ aws:lambda:Function        slack-notifier            create
  +   ├─ aws:sns:TopicSubscription  alarm-topic-subscription  create
  +   ├─ aws:cloudwatch:MetricAlarm cpu-high-alarm            create
- +   ├─ aws:cloudwatch:MetricAlarm mem-high-alarm            create
- +   ├─ aws:cloudwatch:MetricAlarm disk-high-alarm           create
+ +   ├─ aws:cloudwatch:MetricAlarm status-check-alarm        create
  +   └─ aws:cloudwatch:Dashboard   monitoring-dashboard      create
 
 Resources:
-    + 9 to create
+    + 8 to create
 ```
 
 ---
@@ -687,14 +651,13 @@ const threshold = config.getNumber("cpuThreshold") ?? 80;      // 없으면 기�
   │       ├── 환경변수: SLACK_WEBHOOK_URL (Secret)
   │       └── 코드: SNS 메시지 파싱 → Slack POST
   │
-  ├── CloudWatch Alarms
-  │       ├── EC2-CPU-High       (CPUUtilization ≥ 80%)
-  │       ├── EC2-Memory-High    (mem_used_percent ≥ 85%)
-  │       └── EC2-Disk-High      (disk_used_percent ≥ 90%)
+  ├── CloudWatch Alarms (AWS 기본 제공 메트릭만 사용)
+  │       ├── EC2-CPU-High          (CPUUtilization ≥ 80%, AWS/EC2)
+  │       └── EC2-StatusCheck-Failed (StatusCheckFailed ≥ 1, AWS/EC2)
   │               └── alarmActions → SNS Topic
   │
   └── CloudWatch Dashboard
-          ├── CPU / 메모리 / 디스크 사용률 그래프
+          ├── CPU 사용률 그래프
           ├── 네트워크 트래픽 그래프
           └── 알람 상태 위젯
 
