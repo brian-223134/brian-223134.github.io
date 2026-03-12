@@ -13,7 +13,7 @@ toc: true
 toc_sticky: true
 
 date: 2026-03-04
-last_modified_at: 2026-03-04
+last_modified_at: 2026-03-12
 ---
 
 ![ddia](/assets/images/posts_img/book/designing-data-intensive-applications/designing-data-intensive-applications-cover.png)

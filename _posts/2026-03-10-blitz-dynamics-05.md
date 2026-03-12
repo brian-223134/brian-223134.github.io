@@ -13,12 +13,12 @@ toc: true
 toc_sticky: true
 
 date: 2026-03-10
-last_modified_at: 2026-03-10
+last_modified_at: 2026-03-12
 ---
 
 # 들어가며
 
-[이전 포스트](/intern/company/blitz-dynamics/log-metric/)에서 로그·메트릭 수집 도구를 전반적으로 살펴봤다면, 이번에는 실제로 인턴십에서 맡은 과제를 수행하는 방법을 정리한다.
+[이전 포스트](/intern/company/blitz-dynamics/04/)에서 로그·메트릭 수집 도구를 전반적으로 살펴봤다면, 이번에는 실제로 인턴십에서 맡은 과제를 수행하는 방법을 정리한다.
 
 과제의 핵심은 다음 세 가지다.
 

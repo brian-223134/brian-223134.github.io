@@ -13,12 +13,12 @@ toc: true
 toc_sticky: true
 
 date: 2026-03-11
-last_modified_at: 2026-03-11
+last_modified_at: 2026-03-12
 ---
 
 # 들어가며
 
-[이전 포스트](/intern/company/blitz-dynamics/pulumi-cloudwatch-slack/)에서는 Pulumi로 CloudWatch 대시보드, 알람, Slack 알림을 어떻게 구성할 수 있는지 전체 흐름을 정리했다.
+[이전 포스트](/intern/company/blitz-dynamics/05/)에서는 Pulumi로 CloudWatch 대시보드, 알람, Slack 알림을 어떻게 구성할 수 있는지 전체 흐름을 정리했다.
 
 이번 글에서는 그 다음 단계로, 실제 Pulumi 코드를 어떻게 더 읽기 쉽고 유지보수하기 쉬운 구조로 정리했는지를 다룬다.
 

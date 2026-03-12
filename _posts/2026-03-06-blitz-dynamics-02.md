@@ -13,7 +13,7 @@ toc: true
 toc_sticky: true
 
 date: 2026-03-06
-last_modified_at: 2026-03-06
+last_modified_at: 2026-03-12
 ---
 
 # 인턴십 청사진
