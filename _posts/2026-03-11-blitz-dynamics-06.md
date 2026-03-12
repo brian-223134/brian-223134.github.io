@@ -7,7 +7,7 @@ categories:
 tags:
   - [블리츠다이나믹스, 산학, 인턴, 인프라, Pulumi, CloudWatch, SSM, IaC]
 
-permalink: /intern/company/blitz-dynamics/pulumi-refactoring/01/
+permalink: /intern/company/blitz-dynamics/06/
 
 toc: true
 toc_sticky: true

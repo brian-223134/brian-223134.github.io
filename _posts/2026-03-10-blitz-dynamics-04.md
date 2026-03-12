@@ -7,7 +7,7 @@ categories:
 tags:
   - [블리츠다이나믹스, 산학, 인턴, 인프라, CloudWatch, EC2, 메트릭, 모니터링]
 
-permalink: /intern/company/blitz-dynamics/cloudwatch-ec2-metrics/
+permalink: /intern/company/blitz-dynamics/04/
 
 toc: true
 toc_sticky: true

@@ -7,7 +7,7 @@ categories:
 tags:
   - [블리츠다이나믹스, 산학, 인턴, 데이터, 중심, 애플리케이션, 설계]
 
-permalink: /intern/company/blitz-dynamics/ddia/study/01
+permalink: /intern/company/blitz-dynamics/01/
 
 toc: true
 toc_sticky: true
