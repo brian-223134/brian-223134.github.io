@@ -16,8 +16,6 @@ date: 2026-03-12
 last_modified_at: 2026-03-12
 ---
 
-# 들어가며
-
 
 > 로컬 backend, `dev` stack, CloudWatch Alarm 수정 시나리오, multi-stack 운영까지
 
