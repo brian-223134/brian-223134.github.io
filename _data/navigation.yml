@@ -21,7 +21,7 @@ main:
 # 2026: children 구조 사용 시 title은 모두 대문자로 통일, 필드 구분은 언더 스코어 사용
 categories:
   - title: "논문"
-    url: /categories/paper/
+    # url: /categories/paper/
     children:
       - title: "NLP"
         url: /categories/paper/nlp/
