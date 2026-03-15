@@ -22,6 +22,9 @@ main:
 categories:
   - title: "논문"
     url: /categories/paper/
+    children:
+      - title: "NLP"
+        url: /categories/paper/nlp/
 
   - title: "강의"
     children:
