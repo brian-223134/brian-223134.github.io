@@ -7,13 +7,13 @@ categories:
 tags:
   - [KT, 장학생, 면접, 자기소개서]
 
-permalink: /scholarship/kt/2025-interview-review/
+permalink: /scholarship/01/
 
 toc: true
 toc_sticky: true
 
 date: 2026-01-09
-last_modified_at: 2026-03-05
+last_modified_at: 2026-03-16
 ---
 
 ![2026년공고문](/assets/images/posts_img/kt-interview-review/kt-2026-scholarship.png)
