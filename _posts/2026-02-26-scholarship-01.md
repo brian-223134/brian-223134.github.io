@@ -7,7 +7,7 @@ categories:
 tags:
   - [KT, 장학생, 면접, 자기소개서]
 
-permalink: /scholarship/kt/01
+permalink: /scholarship/kt/01/
 
 toc: true
 toc_sticky: true
