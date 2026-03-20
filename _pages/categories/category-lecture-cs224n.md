@@ -1,5 +1,5 @@
 ---
-title: "cs224m"
+title: "cs224n"
 layout: category
 permalink: /categories/lecture/cs224n/
 author_profile: true
