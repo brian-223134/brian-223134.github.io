@@ -124,7 +124,7 @@ COPY config/tsconfig.base.json ./config/   # 변경됐지만 캐시는 미스
 ```
 build-common:latest  →  build-backend  (FROM build-common:latest)
                     →  build-frontend (FROM build-common:latest)
-                    →  build-ceo-proxy, ...
+                    →  build-app-proxy, ...
 ```
 
 build-common이 구버전 상태로 ECR에 남아있으면, 이후 앱 빌드들이 모두 **구버전 베이스 이미지 위에 새 코드를 얹는다.**
@@ -208,10 +208,10 @@ build-common:
     - name: Build & push build-common
       run: |
         docker buildx build \
-          --cache-from type=registry,ref=$ECR_REGISTRY/blitz-build-common:cache \
-          --cache-to   type=registry,ref=$ECR_REGISTRY/blitz-build-common:cache,mode=max \
-          -t $ECR_REGISTRY/blitz-build-common:latest \
-          -t $ECR_REGISTRY/blitz-build-common:$IMAGE_TAG \
+          --cache-from type=registry,ref=$ECR_REGISTRY/app-build-common:cache \
+          --cache-to   type=registry,ref=$ECR_REGISTRY/app-build-common:cache,mode=max \
+          -t $ECR_REGISTRY/app-build-common:latest \
+          -t $ECR_REGISTRY/app-build-common:$IMAGE_TAG \
           --push \
           .
 ```
@@ -240,7 +240,7 @@ build-common:
   run: |
     docker build \
       -f apps/backend/Dockerfile \
-      -t $ECR_REGISTRY/blitz-backend:latest \
+      -t $ECR_REGISTRY/app-backend:latest \
       --push \
       .
 
@@ -248,12 +248,12 @@ build-common:
 - name: Build & push backend
   run: |
     docker buildx build \
-      --build-context build-common=docker-image://$ECR_REGISTRY/blitz-build-common:latest \
-      --cache-from type=registry,ref=$ECR_REGISTRY/blitz-backend:cache \
-      --cache-to   type=registry,ref=$ECR_REGISTRY/blitz-backend:cache,mode=max \
+      --build-context build-common=docker-image://$ECR_REGISTRY/app-build-common:latest \
+      --cache-from type=registry,ref=$ECR_REGISTRY/app-backend:cache \
+      --cache-to   type=registry,ref=$ECR_REGISTRY/app-backend:cache,mode=max \
       -f apps/backend/Dockerfile \
-      -t $ECR_REGISTRY/blitz-backend:latest \
-      -t $ECR_REGISTRY/blitz-backend:$IMAGE_TAG \
+      -t $ECR_REGISTRY/app-backend:latest \
+      -t $ECR_REGISTRY/app-backend:$IMAGE_TAG \
       --push \
       .
 ```
@@ -266,8 +266,8 @@ build-common:
 
 ```bash
 # 이전 방식
-docker pull $ECR_REGISTRY/blitz-build-common:latest
-docker tag $ECR_REGISTRY/blitz-build-common:latest build-common:latest
+docker pull $ECR_REGISTRY/app-build-common:latest
+docker tag $ECR_REGISTRY/app-build-common:latest build-common:latest
 ```
 
 새 방식은 `--build-context`로 직접 참조한다. pull 없이 BuildKit이 필요한 레이어만 가져온다.
@@ -333,7 +333,7 @@ push 발생
   │    ECR 캐시 참조
   │    변경 없음 → 캐시 히트
   ├─ build-frontend  (항상 실행, 병렬)
-  ├─ build-ceo-proxy (항상 실행, 병렬)
+  ├─ build-app-proxy (항상 실행, 병렬)
   └─ ...
 ```
 
@@ -346,11 +346,11 @@ push 발생
 각 job마다 반복되는 공통 step들이 있었다.
 
 ```yaml
-# build-backend, build-frontend, build-ceo-proxy ... 모두 동일
+# build-backend, build-frontend, build-app-proxy ... 모두 동일
 - name: Configure AWS credentials (OIDC)
   uses: aws-actions/configure-aws-credentials@v4
   with:
-    role-to-assume: arn:aws:iam::075088103317:role/github-actions-ecr
+    role-to-assume: arn:aws:iam::xxxxxxxxxxxx:role/github-actions-ecr
     aws-region: ${{ env.AWS_REGION }}
 ```
 
@@ -364,7 +364,7 @@ jobs:
         name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::075088103317:role/github-actions-ecr
+          role-to-assume: arn:aws:iam::xxxxxxxxxxxx:role/github-actions-ecr
           aws-region: ${{ env.AWS_REGION }}
 
       - &step-ecr-login         # ← 앵커 정의
