@@ -207,9 +207,9 @@ async onModuleInit() {
 
 ---
 
-## 4. JWT 로그인 오류 — `secretOrPrivateKey must be a symmetric key when using HS256`
+## 4. JWT 로그인 오류 — 두 단계 트러블슈팅
 
-### 증상
+### 증상 (1차)
 
 Preview 환경에서 로그인 시도 시 401 응답과 함께 아래 에러가 발생했다.
 
@@ -217,11 +217,11 @@ Preview 환경에서 로그인 시도 시 401 응답과 함께 아래 에러가 
 Error: secretOrPrivateKey must be a symmetric key when using HS256
 ```
 
-### 원인
+### 원인 (1차)
 
 Task Definition의 `secrets` 배열에서 JWT 시크릿으로 특정 AWS Secrets Manager 값을 참조하고 있었다.
 
-문제는 그 시크릿이 **RSA 키 쌍**(비대칭키)을 담고 있다는 점이었다. 백엔드 코드는 `JwtModule.register({ secret: JWT_SECRET })`으로 **HS256(대칭키)** 알고리즘을 사용하도록 설정되어 있었다.
+문제는 그 시크릿이 **RSA 키 쌍**(비대칭키)을 담고 있다는 점이었다. 백엔드 코드는 `JwtModule.register({ secret: SECRET_JWT })`으로 **HS256(대칭키)** 알고리즘을 사용하도록 설정되어 있었다.
 
 | 항목 | 내용 |
 |------|------|
@@ -231,21 +231,55 @@ Task Definition의 `secrets` 배열에서 JWT 시크릿으로 특정 AWS Secrets
 
 Production 환경은 RS256을 사용하기 때문에 문제가 없었다. Preview 환경은 Production Task Definition을 복사해서 만들다 보니 이 불일치가 그대로 따라왔다.
 
-### 해결
+### 1차 시도 (실패)
 
-Task Definition의 `secrets`에서 JWT 시크릿 항목을 제거했다.
+`secrets` 배열에서 `SECRET_JWT` 항목을 완전히 제거했다.
 
-`JWT_SECRET` 환경변수가 없으면 코드에서 `process.env.JWT_SECRET || ''` fallback으로 빈 문자열이 사용되고, HS256으로 서명이 가능해진다.
+### 증상 (2차)
 
-```typescript
-// 백엔드 코드
-JwtModule.register({
-  secret: process.env.JWT_SECRET || '',  // ← 빈 문자열 fallback
-  signOptions: { expiresIn: '1d' },
-})
+```
+JwtStrategy requires a secret or key
+TypeError: JwtStrategy requires a secret or key
+    at new JwtStrategy (passport-jwt/lib/strategy.js:45:15)
 ```
 
-> **주의**: 빈 문자열로 서명된 JWT는 보안상 취약하다. Preview는 실 사용자 데이터와 무관한 테스트 환경이므로 허용하는 구성이다. Production에는 절대 적용하지 않는다.
+앱 부트스트랩 자체가 실패했다.
+
+### 원인 (2차)
+
+`SECRET_JWT`를 제거하니 `process.env.SECRET_JWT`가 `undefined`가 됐다.
+
+`passport-jwt`의 `Strategy` 생성자는 `secretOrKey`가 falsy이면 즉시 예외를 던진다.
+
+```javascript
+// passport-jwt/lib/strategy.js:45
+if (!options.secretOrKey && !options.secretOrKeyProvider) {
+  throw new TypeError('JwtStrategy requires a secret or key');
+}
+```
+
+빈 문자열 `''`은 통과하지 못하고, `undefined`도 마찬가지다. NestJS는 `JwtModule`에 넘긴 `secret`을 `passport-jwt`의 `secretOrKey`로 그대로 전달하기 때문에, 환경변수가 없으면 Strategy 생성 단계에서 앱 전체가 죽는다.
+
+### 최종 해결
+
+`secrets` 배열에서 RSA 키를 제거하는 대신, Task Definition의 `environment` 배열에 더미 문자열을 직접 주입했다.
+
+```json
+{
+  "name": "SECRET_JWT",
+  "value": "preview-jwt-dummy-secret"
+}
+```
+
+| 시도 | 값 | 결과 |
+|------|-----|------|
+| 1차 | RSA 키 (비대칭) | HS256 알고리즘 불일치 에러 |
+| 2차 | 미주입 (`undefined`) | JwtStrategy 생성자 에러, 앱 기동 실패 |
+| 최종 | 더미 문자열 | HS256 서명 성공 ✅ |
+
+더미 문자열은 HS256으로 서명 가능하고, Strategy 생성자도 통과한다.
+
+> **주의**: 더미 키로 서명된 JWT는 보안상 취약하다. Preview는 실 사용자 데이터와 무관한 테스트 환경이므로 허용하는 구성이다. Production에는 절대 적용하지 않는다.
 
 ---
 
@@ -293,7 +327,7 @@ Aurora(3306)와 ElastiCache(6379) — 같은 패턴, 다른 Security Group, 다�
 | `ETIMEDOUT` (DB, Redis 등) | Security Group 인바운드 규칙 (DNS ↔ TCP 구분) |
 | 환경변수가 무시됨 | Docker 이미지 내 `.env` 파일 포함 여부 |
 | 앱이 기동조차 안 됨 | `onModuleInit` 내 uncaught exception |
-| 알고리즘 불일치 에러 | 시크릿 값의 형식 (대칭키 vs 비대칭키) |
+| 알고리즘 불일치 에러 | 시크릿 값의 형식 (대칭키 vs 비대칭키) — `secrets`에서 제거 후 `environment`에 더미 문자열 주입 |
 
 ### Security Group 트러블슈팅 체크리스트
 
