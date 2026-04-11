@@ -31,16 +31,16 @@ last_modified_at: 2026-04-10
 현재 백엔드는 단일 EC2 인스턴스 위에서 다음과 같이 구성되어 있습니다.
 
 ```
-                    ┌─ EC2 Instance ──────────────────────────┐
-                    │                                         │
-Internet ── ALB ──▶ │  Nginx (ip_hash)                        │
-                    │   ├─ backend-blue  (PM2 multi-fork)     │
-                    │   ├─ backend-green (대기)                │
-                    │   ├─ backend-cron  (다수의 배치 잡)       │
-                    │   └─ datadog-agent                      │
-                    └────────────────┬────────────────────────┘
-                                     ▼
-                                  RDS (관리형 DB)
+                     ┌─ EC2 Instance ──────────────────────────┐
+                     │                                         │
+Internet ── ALB ──▶ │  Nginx (Ip Router)                      │
+                     │   ├─ blue  (PM2 multi-fork)             │
+                     │   ├─ green (Wait)                       │
+                     │   ├─ cron  (Batch Job)                  │
+                     │   └─ datadog-agent                      │
+                     └────────────────┬────────────────────────┘
+                                      ▼
+                                   RDS (관리형 DB)
 ```
 
 - **배포**: SSH 접속 후 스크립트 실행 기반의 수동 Blue/Green
@@ -62,11 +62,11 @@ ECS on EC2를 선택한 이유는 세 가지입니다.
 
 ECS로 옮기기로 결심한 뒤 첫 번째 난관은 "Task를 **어디에** 놓을 것인가"였습니다. 크게 세 가지 옵션을 저울질했습니다.
 
-| 옵션 | 설명 | 장점 | 단점 |
-|------|------|------|------|
-| **A. 기존 VPC Public Subnet** | `assignPublicIp: ENABLED`로 IGW를 통해 외부 통신 | 추가 인프라 비용 없음, 기존 EC2와 네트워크 경로 동일 → 메트릭 비교가 깨끗 | 보안 모범(Private Subnet)에서는 벗어남 |
-| **B. Private Subnet + NAT Gateway** | 같은 VPC 안에 Private Subnet 신설 | 보안 모범에 부합 | NAT Gateway 월 고정 비용, 네트워크 재설계가 카나리 이전과 섞임 |
-| **C. 신규 VPC** | VPC·ALB·DNS 전면 재구성 | 가장 깨끗한 이관 | 이번 범위를 크게 초과 |
+| 옵션                                | 설명                                             | 장점                                                                      | 단점                                                           |
+| ----------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **A. 기존 VPC Public Subnet**       | `assignPublicIp: ENABLED`로 IGW를 통해 외부 통신 | 추가 인프라 비용 없음, 기존 EC2와 네트워크 경로 동일 → 메트릭 비교가 깨끗 | 보안 모범(Private Subnet)에서는 벗어남                         |
+| **B. Private Subnet + NAT Gateway** | 같은 VPC 안에 Private Subnet 신설                | 보안 모범에 부합                                                          | NAT Gateway 월 고정 비용, 네트워크 재설계가 카나리 이전과 섞임 |
+| **C. 신규 VPC**                     | VPC·ALB·DNS 전면 재구성                          | 가장 깨끗한 이관                                                          | 이번 범위를 크게 초과                                          |
 
 결론은 **옵션 A**입니다. 핵심 원칙은 **"리스크 분리"** 입니다.  
 카나리 이전(런타임 플랫폼 교체)과 네트워크 재설계는 별개 프로젝트로 쪼개야, 문제 발생 시 원인을 명확히 특정할 수 있습니다. Private Subnet + NAT Gateway 전환은 EC2를 완전히 퇴역시킨 뒤 별도 이니셔티브로 진행할 계획입니다.
@@ -89,7 +89,7 @@ ECS로 옮기기로 결심한 뒤 첫 번째 난관은 "Task를 **어디에** �
 Stage 0            Stage 1            Stage 3              Stage 4
 인프라 준비         ECS 기동 검증       카나리 전환             EC2 퇴역
 (코드/IaC)         (트래픽 0%)        (점진 가중치 전환)       (정리)
-    │                 │                  │                     │
+     │                 │                  │                     │
     ▼                 ▼                  ▼                     ▼
 ────●─────────────────●──────────────────●─────────────────────●──▶
 ```
@@ -205,13 +205,13 @@ Agent 이미지는 `:latest` 대신 **고정 태그**를 사용해 예기치 않
 
 ## 이전이 완료되면 달라지는 것들
 
-| 구분 | Before (EC2) | After (ECS on EC2) |
-|------|-------------|-------------------|
-| 프로세스 관리 | PM2 | ECS(재시작·헬스체크) |
-| 프론트 라우팅 | Nginx | ALB → Task ENI 직결 |
-| 배포 방식 | SSH + 수동 스크립트 | GitHub Actions → ECR → TaskDef |
-| 인프라 가용성 | 단일 인스턴스 | ASG, 멀티 AZ 분산 |
-| 스케일링 | PM2 fork 수 수동 조정 | Application Auto Scaling |
+| 구분          | Before (EC2)          | After (ECS on EC2)             |
+| ------------- | --------------------- | ------------------------------ |
+| 프로세스 관리 | PM2                   | ECS(재시작·헬스체크)           |
+| 프론트 라우팅 | Nginx                 | ALB → Task ENI 직결            |
+| 배포 방식     | SSH + 수동 스크립트   | GitHub Actions → ECR → TaskDef |
+| 인프라 가용성 | 단일 인스턴스         | ASG, 멀티 AZ 분산              |
+| 스케일링      | PM2 fork 수 수동 조정 | Application Auto Scaling       |
 
 ---
 
