@@ -1,344 +1,122 @@
-## 🦥 `Minimal Mistakes theme customized by brian`
+# 예비대학원생 김씨
 
-📎 **블로그 바로 가기**
-[`https://brian-223134.github.io/`](https://brian-223134.github.io/)
+Jekyll과 Minimal Mistakes 테마를 기반으로 운영하는 개인 기술 블로그입니다.
 
----
+- 블로그: <https://brian-223134.github.io/>
+- 저장소: <https://github.com/brian-223134/brian-223134.github.io>
+- 테마: Minimal Mistakes
+- 스킨: `plum`
+- 로케일: `ko-KR`
+- 배포: GitHub Pages
 
-[_config.yml]
+## 프로젝트 구조
 
-```yml
-# plum skin 활용하여 색상 설정함. 변경하려면 _sass/minimal-mistakes/skins/_plum.scss 에서 변경하거나
-# 해당 디렉토리 내의 다른 테마로 변경 가능 (minimal-mistakes 기본 제공 테마)
-minimal_mistakes_skin: "plum" # "default" "air", "aqua", ...
-
-# Site Settings
-locale: "ko-KR" #"en-US"
-title: "Blog Name Here" # 상단 헤더에 보이는 블로그 타이틀
-title_separator: "&#124;"
-subtitle: # site tagline that appears below site title in masthead
-name: "your name here" # 블로그 닉네임 설정
-description: "OOOOO DevLog" # 블로그 설명
-url: "https://github-account.github.io" # 블로그 URL
-baseurl: # the subpath of your site, e.g. "/blog"
-repository: "github-account/github-account.github.io" # GitHub Repo 이름
-# logo : # 상단 헤더의 블로그 타이틀 앞에 로고 추가하고 싶을 경우 사용
-
----
-# Site Author (Home에서 해당 내용은 숨김 상태)
-author:
-  name: "your name here" # 블로그 닉네임
-  avatar: "/assets/images/meee.png" # 블로그 프로필 사진
-  #   bio              : "hi all!"
-  # location         : "Seoul, Korea"
-  # email            : "youremailhere@xxxxxx.com"
+```text
+.
+├── _config.yml              # 사이트 전역 설정
+├── _data/navigation.yml     # 상단 메뉴와 사이드바 카테고리
+├── _pages/                  # About, 카테고리 아카이브 페이지
+├── _posts/                  # 블로그 포스트
+├── _layouts/                # Jekyll 레이아웃
+├── _includes/               # 공통 UI 조각
+├── _sass/                   # Minimal Mistakes 스타일 소스
+└── assets/                  # CSS, JS, 이미지, 폰트, favicon
 ```
 
-### ▪ favicon 변경
+## 로컬 실행
 
-1. [https://www.favicon-generator.org/](https://www.favicon-generator.org/) 접속하여 원하는 이미지를 favicon으로 생성
-2. 생성된 파일 `assets/images/favicon/` 디렉토리에 저장  
-   \*주의) 로컬 실행 시 변경 내역이 반영되지 않을 수 있음. push 해서 확인 필요.
-3. `_layouts/default.html`의 `github-account.github.io` 부분에 본인 블로그 URL 입력
-
-```html
-<link
-  rel="apple-touch-icon"
-  sizes="180x180"
-  href="https://github-account.github.io/assets/images/favicon/apple-touch-icon.png"
-/>
-<link
-  rel="icon"
-  type="image/png"
-  sizes="32x32"
-  href="https://github-account.github.io/assets/images/favicon/favicon-32x32.png"
-/>
-<link
-  rel="icon"
-  type="image/png"
-  sizes="16x16"
-  href="https://github-account.github.io/assets/images/favicon/favicon-16x16.png"
-/>
-<link
-  rel="manifest"
-  href="https://github-account.github.io/assets/images/favicon/site.webmanifest"
-/>
-<link
-  rel="mask-icon"
-  href="https://github-account.github.io/assets/images/favicon/safari-pinned-tab.svg"
-  color="#5bbad5"
-/>
-```
-
-### ▪ 상단 헤더 우측 네비게이션 관리
-
-[_data/navigation.yml]
-
-```yml
-# main links
-main:
-  - title: "Home"
-    url: https://your-blog-url-here/ # 블로그 HOME 바로가기
-
-  - title: "About"
-    url: /about/ #_pages/about.md 연결
-
-  - title: "GitHub"
-    url: https://github.com/github-account # 깃허브 바로가기 (본인 깃허브로 변경)
-
-
-  # 카테고리 기능이 필요하면 활성화 하기 (_pages/categories-archive.md 연결)
-  # - title: "Categories"
-  #   url: /categories/
-```
-
-### ▪ 카테고리 수정
-
-카테고리에 항목을 추가하고 싶을 경우, `_pages/categories/` 하위에 md 파일 추가
-
-`_pages/categories/category-categories1.md` 파일 작성 예시 (ex. category-algorithm.md)
-
-```markdown
-title: "Categories1" # 카테고리 이름
-layout: category
-permalink: /categories/categories1/ # url
-author_profile: true
-taxonomy: Categories1
-sidebar:
-nav: "categories"
-```
-
-카테고리 이름과 url을 `_data/navigation.yml`에 추가
-
-```yml
-# sidebar navigation (categories)
-categories:
-  - title: "Categories1"
-    url: /categories/categories1/
-  - title: "Categories2"
-    url: /categories/categories2/
-  - title: "Categories3"
-    url: /categories/categories3/
-  - title: "Categories4"
-    url: /categories/categories4/
-```
-
-2022.09.24 Update : 하위 카테고리 포함 메뉴 (categories-ver2 branch)  
-ver2.0 카테고리 형태 문의가 있어서 categories-ver2 브랜치에 업데이트 했습니다.  
-예시는 페이지 하단 '개발 기록' 부분에서 확인하실 수 있어요!
-
-참고) `_data/navigation.yml`만 아래와 같이 변경해주셔도 됩니다.
-
-```yml
-categories:
-  - title: "Title1"
-    children:
-      - title: "Categories1"
-        url: /categories/categories1/
-      - title: "Categories2"
-        url: /categories/categories2/
-      - title: "Categories3"
-        url: /categories/categories3/
-      - title: "Categories4"
-        url: /categories/categories4/
-
-  - title: "Title2"
-    children:
-      - title: "Categories5"
-        url: /categories/categories5/
-      - title: "Categories6"
-        url: /categories/categories6/
-
-  - title: "Title3"
-    children:
-      - title: "Categories7"
-        url: /categories/categories7/
-```
-
-### ▪ 포스트 작성
-
-1. `_posts/YYYY-MM-DD-post-name-here.md` 파일 생성
-2. 포스트에 사용할 이미지는 `assets/images/posts_img/post-name-here/` 하위에 저장
-3. 포스트 front matter 작성
-
-```txt
----
-title: "[포스팅 예시] 이곳에 제목을 입력하세요"
-excerpt: "본문의 주요 내용을 여기에 입력하세요"
-
-categories: # 카테고리 설정
-  - categories1
-tags: # 포스트 태그
-  - [tag1, tag2]
-
-permalink: /categories1/post-name-here/ # 포스트 URL
-
-toc: true # 우측에 본문 목차 네비게이션 생성
-toc_sticky: true # 본문 목차 네비게이션 고정 여부
-
-date: 2020-05-21 # 작성 날짜
-last_modified_at: 2021-10-09 # 최종 수정 날짜
----
-```
-
-4. front matter 하단에 포스팅 내용 작성
-
-- 참고 (\_config.yml에서 포스팅 기본 세팅) : comment, author_profile 등의 상태를 변경 가능. 포스팅 디폴트값
-
-```yml
-# Defaults
-defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: #true
-      show_date: true
-      comments: true
-      # share: true
-      related: true
-      sidebar:
-        nav: "categories"
-```
-
-### ▪ 댓글 기능 (utterances 사용)
-
-utterances 관련해서 구글링 해보고 진행하기를 추천.  
-기본적인 세팅 방법을 설명하자면,
-
-1. 본인 GitHub에 utterances용 repository 생성
-2. [https://github.com/apps/utterances](https://github.com/apps/utterances)에 접속하여 생성한 repo 선택 후 install
-3. `_config.yml` 파일 변경 (theme 변경 시에만)
-
-```yml
-comments:
-  provider: "utterances"
-  utterances:
-    theme: "github-light" # "github-dark"
-    issue_term: "pathname" # pathname은 post의 markdown 파일 이름으로 연결됨
-```
-
-4. `_includes/comments-providers/utterances.html` 파일 작성
-
-```yml
-# 본인 깃허브 아이디와 생성한 레파지토리 입력
-script.setAttribute('repo', 'github-account/repository-name');
-# 선택한 깃허브 테마 입력
-script.setAttribute('theme', '{{ site.comments.utterances.theme | default: "github-light" }}');
-```
-
-### ▪ Google Analytics 연결
-
-[https://analytics.google.com/analytics/web/](https://analytics.google.com/analytics/web/)에서 접속하여 연결
-
-```yml
-# Analytics
-analytics:
-  provider: "google-gtag"
-  # false (default), "google", "google-universal", "google-gtag", "custom"
-  google:
-    tracking_id: "your tracking id here" # 본인의 tracking id 입력
-    anonymize_ip: # true, false (default)
-```
-
-### ▪ Goolge Search Console 연결
-
-구글에 내 게시물이 보이게 하려면 search console과 연결이 필요
-[https://search.google.com/search-console/about](https://search.google.com/search-console/about)에서 접속하여 도메인 등록
-
-1. 도메인 등록 시 구글에서 제공하는 `google~~.html` 파일 루트 디렉토리에 업로드
-2. `jekyll-sitemap` 플러그인 설치 (구글링 추천)
+Ruby/Jekyll 의존성을 설치한 뒤 로컬 서버를 실행합니다.
 
 ```bash
-sudo gem install jekyll-sitemap
+bundle install
+bundle exec jekyll serve
 ```
 
-3. `_config.yml` 파일에 plugins에 jekyll-sitemap 없으면 추가
+브라우저에서 `http://127.0.0.1:4000`으로 확인합니다.
 
-```yml
-# Plugins (previously gems:)
-plugins:
-  - jekyll-sitemap
+JS 번들 파일을 수정해야 할 때만 Node 의존성을 설치하고 빌드합니다.
+
+```bash
+npm install
+npm run build:js
 ```
 
-4. 루트 디렉토리에 `robots.txt` 생성
+## 주요 설정
 
-```txt
-User-agent: *
-Allow: /
+핵심 사이트 설정은 `_config.yml`에서 관리합니다.
 
-Sitemap: https://github-account.github.io/sitemap.xml
-```
+- `title`: 상단 헤더와 SEO 제목에 사용되는 블로그 이름
+- `description`: 검색 결과와 메타 태그에 사용되는 설명
+- `url`: GitHub Pages URL, 현재 `https://brian-223134.github.io`
+- `minimal_mistakes_skin`: 현재 `plum`
+- `timezone`: 현재 `Asia/Seoul`
+- `comments.provider`: 현재 `utterances`
+- `analytics.provider`: 현재 `google-gtag`
 
-### ▪ 네이버 검색 등록 (서치어드바이저)
+카테고리 사이드바는 `_data/navigation.yml`에서 관리하고, 실제 카테고리 페이지는 `_pages/categories/`에 둡니다.
 
-[https://searchadvisor.naver.com/](https://searchadvisor.naver.com/)에 접속하여 사이트 등록  
-루트 디렉토리에 `naver~~~~.html` 추가
+## 포스트 작성 규칙
 
-- 참고할만한 블로그가 있어서 링크 걸어두겠습니다.
-  [https://yenarue.github.io/tip/2020/04/30/Search-SEO/#%EB%84%A4%EC%9D%B4%EB%B2%84-naver](https://yenarue.github.io/tip/2020/04/30/Search-SEO/#%EB%84%A4%EC%9D%B4%EB%B2%84-naver)
+포스트는 `_posts/YYYY-MM-DD-topic-number.md` 형식으로 작성합니다.
 
-### ▪ 폰트 변경
-
-1. `assets/css/main.scss`에 import나 font-face 방식 중 선택하여 폰트 추가
-
-```scss
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-@font-face {
-  font-family: "RIDIBatang";
-  font-weight: normal;
-  src: url(/assets/css/fonts/RIDIBatang.otf);
-}
-```
-
-2. `_sass/minimal-mistakes/_variables.scss`에서 폰트 설정
-
-```scss
-$serif: Georgia, Times, serif !default;
-$sans-serif: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
-  "Montserrat", "Pretendard", "Merriweather", sans-serif !default;
-$monospace: "Fira Mono", "Pretendard", Monaco, Consolas, "Lucida Console",
-  monospace !default;
-```
-
-### ▪ About 페이지 작성
-
-상단 네비게이션의 `About` 탭은 `_pages/about.md`로 연결. 해당 파일에 내용 작성
-
-```txt
+```yaml
 ---
-title: "Hi all! I'm OOOOOO👋🏻"
-permalink: /about/
-layout: single
-comments: false
----
+title: "[카테고리] 제목"
+excerpt: "한 줄 요약"
 
-본인 소개 여기에 입력
+categories:
+  - Company
+tags:
+  - [블리츠다이나믹스, 산학, 인턴, 인프라]
+
+permalink: /intern/company/blitz-dynamics/01/
+
+toc: true
+toc_sticky: true
+
+date: 2026-03-04
+last_modified_at: 2026-03-04
+---
 ```
 
-_문의사항 또는 수정 요청은 블로그에 댓글 남겨주시거나 이메일로 연락주세요!_
+작성 기준은 다음과 같습니다.
 
----
+- 새 카테고리는 임의로 만들지 않고 `_data/navigation.yml`과 `_pages/categories/`를 함께 수정합니다.
+- `categories` 값은 카테고리 페이지의 `taxonomy` 값과 일치해야 합니다.
+- 기존 포스트의 `permalink`는 SEO 영향을 고려해 불필요하게 변경하지 않습니다.
+- `date`는 게시일, `last_modified_at`은 마지막 수정일로 관리합니다.
+- 코드블록에는 가능한 한 언어명을 명시합니다.
 
-### 개발 기록
+## 현재 카테고리
 
-[VER1.0]
-![choiiis github blog main](/assets/images/posts_img/readme/blog-main-ver1.png)
+주요 카테고리와 URL은 다음과 같습니다.
 
-[VER2.0]
-![choiiis github blog main](/assets/images/posts_img/readme/blog-main-ver2.png)
+| 분류 | URL | taxonomy |
+| --- | --- | --- |
+| 논문/NLP | `/categories/paper/nlp/` | `NLP` |
+| 강의/AWS 기초 | `/categories/lecture/aws_basic/` | `AWS_BASIC` |
+| 강의/CS224N | `/categories/lecture/cs224n/` | `CS224N` |
+| 서적/DDIA | `/categories/book/designing-data-intensive-applications/` | `Designing-Data-Intensive-Applications` |
+| 서적/데이터 엔지니어링 | `/categories/book/fundamentals-of-data-engineering/` | `Fundamentals-Of-Data-Engineering` |
+| 면접 | `/categories/interview/` | `Interview` |
+| 장학생/KT | `/categories/scholarship/kt/` | `KT-Scholarship` |
+| 인턴/연구실 | `/categories/intern/lab/` | `Laboratory` |
+| 인턴/회사 | `/categories/intern/company/` | `Company` |
 
-- logo 변경
-- 카테고리 디자인 변경
-- font family, size 변경
-- 메인 컬러 변경
+## 운영 체크리스트
 
-[VER2.1]
-![choiiis github blog main](/assets/images/posts_img/readme/ver2_1_main.png)
+현재 저장소 기준으로 확인이 필요한 항목입니다.
 
+- `_includes/comments-providers/utterances.html`의 `repo` 값이 placeholder인지 확인하고 실제 댓글 저장소로 교체합니다.
+- `_config.yml`의 `analytics.google.tracking_id`를 실제 Google Analytics ID로 교체하거나, 사용하지 않으면 analytics 설정을 비활성화합니다.
+- Google Search Console 인증 코드를 `_config.yml`의 `google_site_verification`에 추가합니다.
+- Search Console에 `https://brian-223134.github.io/sitemap.xml`을 제출합니다.
+- `_data/navigation.yml`의 `ANDREW_NG_DEEP_LEARNING` 카테고리는 실제 페이지가 없으므로 페이지를 추가하거나 메뉴에서 제거합니다.
+- `/intern/paper/nlp/01` 형태의 permalink가 카테고리 구조와 맞는지 점검합니다.
 
+## 참고
 
+- favicon 파일은 `assets/images/favicon/`에 있습니다.
+- 프로필 이미지는 `_config.yml`의 `author.avatar`에서 지정합니다.
+- 테마 색상은 `_sass/minimal-mistakes/skins/_plum.scss`에서 관리합니다.
+- 단순 CSS 오버라이드는 가능하면 `assets/css/main.scss`에 추가합니다.
