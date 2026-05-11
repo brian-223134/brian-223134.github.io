@@ -120,3 +120,9 @@ last_modified_at: 2026-03-04
 - 프로필 이미지는 `_config.yml`의 `author.avatar`에서 지정합니다.
 - 테마 색상은 `_sass/minimal-mistakes/skins/_plum.scss`에서 관리합니다.
 - 단순 CSS 오버라이드는 가능하면 `assets/css/main.scss`에 추가합니다.
+
+## 차후 업데이트 사항
+
+- Agent가 디렉토리를 스캔할 수 있도록 agent skills 추가
+- Muli-directory 환경에서 활동할 수 있도록 네이밍 컨벤션 로직 전반적으로 수정 
+
